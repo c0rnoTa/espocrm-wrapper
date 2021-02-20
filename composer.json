@@ -1,0 +1,15 @@
+{
+  "name": "c0rnota/espocrm-wrapper",
+  "description": "Request wrapper for EspoCRM Lead and Contact search",
+  "minimum-stability": "stable",
+  "license": "public",
+  "authors": [
+    {
+      "name": "Anton",
+      "email": "c0rnoTa@gmail.com"
+    }
+  ],
+  "require": {
+    "drei-kr/espocrm-api": "dev-master"
+  }
+}
