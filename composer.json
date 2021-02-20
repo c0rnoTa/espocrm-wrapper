@@ -10,6 +10,6 @@
     }
   ],
   "require": {
-    "drei-kr/espocrm-api": "dev-master"
+    "guzzlehttp/guzzle": "^7"
   }
 }
