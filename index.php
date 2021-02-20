@@ -6,13 +6,6 @@ $username = 'username';
 $password = 'password';
 $espocrmUrl = 'https://espo.example.com';
 
-
-$phoneNumber = $_GET['phone'];
-
-if ( empty($phoneNumber) ) {
-    exit(0);
-}
-
 $options = [
     'auth' => [
         $username,
@@ -20,6 +13,12 @@ $options = [
     ],
     'timeout' => 1
 ];
+
+$phoneNumber = format($_GET['phone']);
+
+if ( empty($phoneNumber) ) {
+    exit(0);
+}
 
 $params = [
     'query' => [
@@ -80,4 +79,23 @@ function get($client,$entity,$second = null) {
         $format = "%s";
     }
     return sprintf($format, $result['list'][0]['name'],$result['list'][0][$second] );
+}
+
+function format($phone) {
+
+    $phone = preg_replace('/[^0-9]/','',$phone);
+
+    if ( strlen($phone) == 11 && substr($phone,0,1) == 8) {
+        return '+7'.substr($phone,-10);
+    }
+
+    if ( strlen($phone)==10 ) {
+        return '+7'.$phone;
+    }
+
+    if (substr($phone,0,1) != '+') {
+        return '+'.$phone;
+    }
+
+    return $phone;
 }
