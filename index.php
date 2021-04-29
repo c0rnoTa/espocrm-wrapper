@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 $username = 'username';
 $password = 'password';
 $espocrmUrl = 'https://espo.example.com';
+$checkSpamUrl = 'https://www.neberitrubku.ru/nomer-telefona';
 
 $options = [
     'auth' => [
@@ -56,6 +57,10 @@ if ( !is_null($name) ) {
     exit(0);
 }
 
+if (CheckSpam($client)) {
+    echo "SPAM!";
+}
+
 exit(0);
 
 function get($client,$entity,$second = null) {
@@ -98,4 +103,23 @@ function format($phone) {
     }
 
     return $phone;
+}
+
+function CheckSpam($client) {
+
+    global $checkSpamUrl,$phoneNumber;
+
+    $response = $client->get($checkSpamUrl.'/'.$phoneNumber);
+
+    if ($response->getStatusCode() != 200) {
+        return false;
+    }
+
+    $result = (string) $response->getBody();
+
+    if (strpos($result, '<div class="score negative">') !== false) {
+        return true;
+    }
+
+    return false;
 }
